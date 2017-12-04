@@ -60,7 +60,6 @@
 
   // Epoxy.Model
   // -----------
-  var modelMap;
   var modelProps = ['computeds'];
 
   Epoxy.Model = Backbone.Model.extend({
@@ -87,7 +86,7 @@
     get: function(attribute) {
 
       // Automatically register bindings while building out computed dependency graphs:
-      modelMap && modelMap.push(['change:'+attribute, this]);
+      Epoxy.modelMap && Epoxy.modelMap.push(['change:'+attribute, this]);
 
       // Return a computed property value, if available:
       if (this.hasComputed(attribute)) {
@@ -410,9 +409,9 @@
       // All Epoxy.Model attributes accessed while getting the initial value
       // will automatically register themselves within the model bindings map.
       var bindings = {};
-      var deps = modelMap = [];
+      var deps = Epoxy.modelMap = [];
       this.get(true);
-      modelMap = null;
+      Epoxy.modelMap = null;
 
       // If the computed has dependencies, then proceed to binding it:
       if (deps.length) {
